@@ -1,0 +1,21 @@
+{
+  "name": "township-client",
+  "version": "2.0.2",
+  "description": "Township auth client",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && tape tests/*.js | tap-spec"
+  },
+  "author": "Joe Hand",
+  "license": "MIT",
+  "dependencies": {
+    "is-number": "^2.1.0",
+    "is-string": "^1.0.4",
+    "nets": "^3.2.0",
+    "os-homedir": "^1.0.1"
+  },
+  "devDependencies": {
+    "appa": "^6.0.0",
+    "tape": "^4.6.2"
+  }
+}
