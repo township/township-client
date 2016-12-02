@@ -11,7 +11,13 @@ function TownshipClient (opts) {
   self.config = Config(opts.config)
   self.config.init()
   if (opts.server) self.server = opts.server.indexOf('http') > -1 ? opts.server : 'https://' + opts.server
-  else if (config.currentLogin) self.server = config.currentLogin.server
+  else if (self.config.currentLogin) self.server = self.config.currentLogin.server
+
+  self.routes = opts.routes || {
+    register: '/register',
+    login: '/login',
+    updatePassword: '/updatepassword'
+  }
 
   return self
 }
@@ -26,7 +32,7 @@ TownshipClient.prototype.register = function (opts, cb) {
 
   return self._request({
     method: 'POST',
-    url: server + '/auth',
+    url: server + self.routes.register,
     json: {
       email: opts.email,
       password: opts.password
@@ -50,7 +56,7 @@ TownshipClient.prototype.login = function (opts, cb) {
 
   return self._request({
     method: 'POST',
-    url: server + '/auth/verify',
+    url: server + self.routes.login,
     json: {
       email: opts.email,
       password: opts.password
@@ -65,7 +71,7 @@ TownshipClient.prototype.login = function (opts, cb) {
   })
 }
 
-TownshipClient.prototype.password = function (opts, cb) {
+TownshipClient.prototype.updatePassword = function (opts, cb) {
   opts = opts || {}
   if (!opts.email) return cb(new Error('email is required to change password'))
   if (!opts.token) return cb(new Error('token is required to change password'))
@@ -77,7 +83,7 @@ TownshipClient.prototype.password = function (opts, cb) {
 
   return self._request({
     method: 'POST',
-    url: server + '/auth/password',
+    url: server + self.routes.updatePassword,
     json: {
       email: opts.email,
       token: opts.token,
