@@ -10,8 +10,11 @@ function TownshipClient (opts) {
   var self = this
   self.config = Config(opts.config)
   self.config.init()
-  if (opts.server) self.server = opts.server.indexOf('http') > -1 ? opts.server : 'https://' + opts.server
-  else if (self.config.currentLogin) self.server = self.config.currentLogin.server
+  self.server = opts.server
+    ? opts.server.indexOf('http') > -1
+      ? opts.server
+      : 'https://' + opts.server
+    : self.config.get('currentLogin').server
 
   self.routes = opts.routes || {
     register: '/register',
