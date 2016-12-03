@@ -1,11 +1,15 @@
+var fs = require('fs')
 var path = require('path')
 var test = require('tape')
 
 var TownshipClient = require('..')
 var createServer = require('./server')
+
 var server
 var address
 var client
+var testConfig = path.join(__dirname, 'config.txt')
+fs.writeFileSync(testConfig, '')
 
 test('start test server', function (t) {
   createServer(function (err, serv, add) {
@@ -16,7 +20,7 @@ test('start test server', function (t) {
     client = TownshipClient({
       server: address,
       config: {
-        filepath: path.join(__dirname, 'test.txt')
+        filepath: testConfig
       }
     })
 
@@ -48,19 +52,39 @@ test('login wrong pw', function (t) {
 })
 
 test('login wrong email', function (t) {
-  client.login({email: 'notjoe', password: 'stillsecret'}, function (err) {
+  client.login({email: 'notjoe', password: 'verysecret'}, function (err) {
     t.ok(err, 'errors')
     t.end()
   })
 })
 
 test('change pw', function (t) {
-  t.fail('todo')
-  t.end()
+  client.updatePassword({
+    email: 'joe',
+    password: 'verysecret',
+    newPassword: 'password'
+  }, function (err) {
+    t.error(err)
+    t.pass('okay')
+    t.end()
+  })
 })
 
-test('stop test server', function (t) {
-  server.close(function () {
+test('login with new password', function (t) {
+  client.login({
+    email: 'joe',
+    password: 'password'
+  }, function (err) {
+    t.error(err)
+    t.pass('okay')
     t.end()
+  })
+})
+
+test.onFinish(function () {
+  server.close(function () {
+    fs.unlink(testConfig, function () {
+      // good bye
+    })
   })
 })

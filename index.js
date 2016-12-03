@@ -74,23 +74,31 @@ TownshipClient.prototype.login = function (opts, cb) {
 TownshipClient.prototype.updatePassword = function (opts, cb) {
   opts = opts || {}
   if (!opts.email) return cb(new Error('email is required to change password'))
-  if (!opts.token) return cb(new Error('token is required to change password'))
-  if (!opts.currentPassword) return cb(new Error('new password is required to change password'))
+  if (!opts.password) return cb(new Error('new password is required to change password'))
   if (!opts.newPassword) return cb(new Error('old password is required to change password'))
 
   var self = this
   var server = self._getServer(opts)
 
+  opts.token = opts.token || self.config.getLogin(server).token
+
   return self._request({
     method: 'POST',
     url: server + self.routes.updatePassword,
+    headers: {authorization: 'Bearer ' + opts.token},
     json: {
       email: opts.email,
-      token: opts.token,
-      currentPassword: opts.currentPassword,
+      password: opts.password,
       newPassword: opts.newPassword
     }
-  }, cb)
+  }, function (err, res, body) {
+    if (err) return cb(err.message)
+    body.server = server
+    body.email = opts.email
+    self.config.setLogin(body)
+    self.server = server
+    cb()
+  })
 }
 
 TownshipClient.prototype._getServer = function (opts) {
