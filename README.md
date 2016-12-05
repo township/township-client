@@ -1,6 +1,6 @@
 # Township Auth Client Module
 
-[![Travis](https://travis-ci.org/joehand/township-client.svg)](https://travis-ci.org/joehand/township-client) [![npm](https://img.shields.io/npm/v/township-client.svg?style=flat-square)](https://npmjs.org/package/township-client)
+[![Travis](https://travis-ci.org/township/township-client.svg)](https://travis-ci.org/township/township-client) [![npm](https://img.shields.io/npm/v/township-client.svg)](https://npmjs.org/package/township-client)
 
 Client library to login, register, and change passwords for users using [township](https://github.com/township/township) auth server(s).
 
