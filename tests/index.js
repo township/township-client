@@ -90,9 +90,11 @@ test('register another user', function (t) {
 })
 
 test('secure request', function (t) {
-  // client.secureRequest(opts, cb)
-  t.skip('TODO')
-  t.end()
+  client.secureRequest({url: '/verifytoken'}, function (err) {
+    t.error(err, 'no error')
+    t.pass('secure request works')
+    t.end()
+  })
 })
 
 test.onFinish(function () {

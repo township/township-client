@@ -77,7 +77,9 @@ Reset password for a registered user. `opts.email`, `opts.password`, and `opts.n
 
 #### `township.secureRequest(opts, cb)`
 
-Make a secure request to the server. `opts` should include `opts.method` and `opts.url`, passed to the nets module.
+Make a secure request to the server. `opts` are passed to the [request function](https://github.com/maxogden/nets#get). The `opts` should include `opts.method` and `opts.url`.
+
+`opts.url` will be prefixed by the auth server if not already.
 
 ### `township.getLogin([server])`
 

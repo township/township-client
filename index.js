@@ -123,6 +123,11 @@ TownshipClient.prototype.secureRequest = function (opts, cb) {
 
   if (!self.getLogin(server)) return cb(new Error('Must login to server for secure request.'))
   if (!opts.server) opts.server = server
+  opts.url = opts.url
+    ? opts.url.indexOf(server) > -1
+      ? opts.url
+      : server + opts.url
+    : server // TODO: Error here if no URL?
 
   return self._request(opts, cb)
 }
@@ -134,6 +139,8 @@ TownshipClient.prototype._request = function (opts, cb) {
   if (opts.token) {
     opts.withCredentials = true
     opts.headers = { authorization: 'Bearer ' + opts.token }
+  } else {
+    delete opts.token // Throwing errors in server
   }
 
   return request(opts, function (err, res, body) {

@@ -68,6 +68,18 @@ function createApp (config) {
     })
   })
 
+  app.on('/verifytoken', function (req, res, ctx) {
+    ship.verify(req, res, function (err, token, rawToken) {
+      if (err) return app.error(res, 400, err.message)
+      var body = {
+        token: token,
+        message: 'Token is valid',
+        rawToken: rawToken
+      }
+      app.send(res, 200, body)
+    })
+  })
+
   app.ship = ship
 
   return app
