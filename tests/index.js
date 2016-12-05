@@ -30,7 +30,7 @@ test('start test server', function (t) {
 
 test('register', function (t) {
   client.register({email: 'joe', password: 'verysecret'}, function (err) {
-    t.error(err)
+    t.error(err, 'no error')
     t.pass('registers')
     t.end()
   })
@@ -38,7 +38,7 @@ test('register', function (t) {
 
 test('login okay', function (t) {
   client.login({email: 'joe', password: 'verysecret'}, function (err) {
-    t.error(err)
+    t.error(err, 'no error')
     t.pass('login okay')
     t.end()
   })
@@ -64,7 +64,7 @@ test('change pw', function (t) {
     password: 'verysecret',
     newPassword: 'password'
   }, function (err) {
-    t.error(err)
+    t.error(err, 'no error')
     t.pass('okay')
     t.end()
   })
@@ -75,8 +75,16 @@ test('login with new password', function (t) {
     email: 'joe',
     password: 'password'
   }, function (err) {
-    t.error(err)
+    t.error(err, 'no error')
     t.pass('okay')
+    t.end()
+  })
+})
+
+test('register another user', function (t) {
+  client.register({email: 'joe@hand.email', password: 'verysecret'}, function (err) {
+    t.error(err, 'no error')
+    t.pass('registers')
     t.end()
   })
 })
