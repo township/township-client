@@ -14,7 +14,7 @@ function TownshipClient (opts) {
     ? opts.server.indexOf('http') > -1
       ? opts.server
       : 'https://' + opts.server
-    : self.config.get('currentLogin').server
+    : self.config.getLogin().server
 
   self.routes = opts.routes || {
     register: '/register',
@@ -35,6 +35,7 @@ TownshipClient.prototype.register = function (opts, cb) {
 
   return self._request({
     method: 'POST',
+    server: server,
     url: server + self.routes.register,
     json: {
       email: opts.email,
@@ -60,6 +61,7 @@ TownshipClient.prototype.login = function (opts, cb) {
 
   return self._request({
     method: 'POST',
+    server: server,
     url: server + self.routes.login,
     json: {
       email: opts.email,
@@ -84,12 +86,10 @@ TownshipClient.prototype.updatePassword = function (opts, cb) {
   var self = this
   var server = self._getServer(opts)
 
-  opts.token = opts.token || self.config.getLogin(server).token
-
   return self._request({
     method: 'POST',
+    server: server,
     url: server + self.routes.updatePassword,
-    headers: {authorization: 'Bearer ' + opts.token},
     json: {
       email: opts.email,
       password: opts.password,
@@ -117,7 +117,25 @@ TownshipClient.prototype._getServer = function (opts) {
   return opts.server || this.server
 }
 
+TownshipClient.prototype.secureRequest = function (opts, cb) {
+  var self = this
+  var server = self._getServer(opts)
+
+  if (!self.getLogin(server)) return cb(new Error('Must login to server for secure request.'))
+  if (!opts.server) opts.server = server
+
+  return self._request(opts, cb)
+}
+
 TownshipClient.prototype._request = function (opts, cb) {
+  var self = this
+  opts.token = opts.token || self.getLogin(opts.server).token
+
+  if (opts.token) {
+    opts.withCredentials = true
+    opts.headers = { authorization: 'Bearer ' + opts.token }
+  }
+
   return request(opts, function (err, res, body) {
     if (err) return cb(err)
     if (res.statusCode >= 400) return cb(body)

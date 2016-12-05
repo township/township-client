@@ -75,6 +75,10 @@ Login a registered user. `opts.email` and `opts.password` required
 
 Reset password for a registered user. `opts.email`, `opts.password`, and `opts.newPassword` required. User must have a valid login token saved before changing password.
 
+#### `township.secureRequest(opts, cb)`
+
+Make a secure request to the server. `opts` should include `opts.method` and `opts.url`, passed to the nets module.
+
 ### `township.getLogin([server])`
 
 Get login information for a `server`. If no server is specified, returns current login info (from the most recent login or register action).

@@ -89,6 +89,12 @@ test('register another user', function (t) {
   })
 })
 
+test('secure request', function (t) {
+  // client.secureRequest(opts, cb)
+  t.skip('TODO')
+  t.end()
+})
+
 test.onFinish(function () {
   server.close(function () {
     fs.unlink(testConfig, function () {
