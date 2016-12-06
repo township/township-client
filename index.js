@@ -134,13 +134,12 @@ TownshipClient.prototype.secureRequest = function (opts, cb) {
 
 TownshipClient.prototype._request = function (opts, cb) {
   var self = this
-  opts.token = opts.token || self.getLogin(opts.server).token
+  var login = self.getLogin(opts.server)
+  if (opts.token || login.token) opts.token = opts.token || login.token
 
   if (opts.token) {
     opts.withCredentials = true
     opts.headers = { authorization: 'Bearer ' + opts.token }
-  } else {
-    delete opts.token // Throwing errors in server
   }
 
   return request(opts, function (err, res, body) {
