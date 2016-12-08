@@ -67,6 +67,14 @@ test('logout okay', function (t) {
   })
 })
 
+test('logout twice okay', function (t) {
+  client.logout(function (err) {
+    t.error(err, 'no error')
+    t.pass('logout okay')
+    t.end()
+  })
+})
+
 test('secure request after logout', function (t) {
   client.secureRequest({url: '/verifytoken'}, function (err) {
     t.ok(err, 'cannot do secure request after logout')
