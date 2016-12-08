@@ -59,6 +59,21 @@ test('secure request', function (t) {
   })
 })
 
+test('logout okay', function (t) {
+  client.logout(function (err) {
+    t.error(err, 'no error')
+    t.pass('logout okay')
+    t.end()
+  })
+})
+
+test('secure request after logout', function (t) {
+  client.secureRequest({url: '/verifytoken'}, function (err) {
+    t.ok(err, 'cannot do secure request after logout')
+    t.end()
+  })
+})
+
 test('login wrong pw', function (t) {
   client.login({email: 'joe', password: 'notsecret'}, function (err) {
     t.ok(err, 'errors')
@@ -69,6 +84,14 @@ test('login wrong pw', function (t) {
 test('login wrong email', function (t) {
   client.login({email: 'notjoe', password: 'verysecret'}, function (err) {
     t.ok(err, 'errors')
+    t.end()
+  })
+})
+
+test('login to get token again', function (t) {
+  client.login({email: 'joe', password: 'verysecret'}, function (err) {
+    t.error(err, 'no error')
+    t.pass('ok login after logout')
     t.end()
   })
 })

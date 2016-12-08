@@ -77,6 +77,19 @@ TownshipClient.prototype.login = function (opts, cb) {
   })
 }
 
+TownshipClient.prototype.logout = function (opts, cb) {
+  if (typeof opts === 'function') return this.logout(null, opts)
+  opts = opts || {}
+  var self = this
+
+  var server = self._getServer(opts)
+  if (!self.getLogin(server)) return cb(new Error('Not logged in.'))
+
+  self.config.setLogin({server: server})
+  self.config.set('currentLogin', null)
+  cb(null)
+}
+
 TownshipClient.prototype.updatePassword = function (opts, cb) {
   opts = opts || {}
   if (!opts.email) return cb(new Error('Email is required to change password'))
@@ -120,8 +133,9 @@ TownshipClient.prototype._getServer = function (opts) {
 TownshipClient.prototype.secureRequest = function (opts, cb) {
   var self = this
   var server = self._getServer(opts)
+  var login = self.getLogin(server)
 
-  if (!self.getLogin(server)) return cb(new Error('Must login to server for secure request.'))
+  if (!login || !login.token) return cb(new Error('Must login to server for secure request.'))
   if (!opts.server) opts.server = server
   opts.url = opts.url
     ? opts.url.indexOf(server) > -1

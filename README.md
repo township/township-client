@@ -50,7 +50,7 @@ opts = {
   config: {
     filename: '.townshiprc', // configuration filename (stored in os homedir)
     filepath: '~/.townshiprc' // specify a full config file path 
-  }
+  },
   routes: { // routes for ALL township servers used by client
     register: '/register',
     login: '/login',
@@ -70,6 +70,10 @@ Register a user and receive a token. `opts.email` and `opts.password` required.
 #### `township.login(opts, cb)`
 
 Login a registered user. `opts.email` and `opts.password` required
+
+#### `township.logout(opts, cb)`
+
+Logout from a server. Will logout of current server or `opts.server`, if provided.
 
 #### `township.changePassword(opts, cb)`
 
