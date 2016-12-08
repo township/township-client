@@ -10,7 +10,7 @@ function TownshipClient (opts) {
   var self = this
   self.config = Config(opts.config)
   self.config.init()
-  var login = self.config.getLogin()
+  var login = self.getLogin()
   self.server = opts.server
     ? opts.server.indexOf('http') > -1
       ? opts.server
@@ -84,7 +84,7 @@ TownshipClient.prototype.logout = function (opts, cb) {
   var self = this
 
   var server = self._getServer(opts)
-  if (!self.getLogin(server)) return cb(new Error('Not logged in.'))
+  if (!server || !self.getLogin(server)) return cb(new Error('Not logged in.'))
 
   self.config.setLogin({server: server})
   self.config.set('currentLogin', null)
@@ -122,12 +122,12 @@ TownshipClient.prototype.updatePassword = function (opts, cb) {
 TownshipClient.prototype.getLogin = function (server) {
   var self = this
   server = self._getServer({server: server})
+  if (!server) return null
   return self.config.getLogin(server)
 }
 
 TownshipClient.prototype._getServer = function (opts) {
   opts = opts || {}
-  assert.ok(opts.server || this.server, 'Server must be specified to make an auth request')
   return opts.server || this.server
 }
 
@@ -148,6 +148,7 @@ TownshipClient.prototype.secureRequest = function (opts, cb) {
 }
 
 TownshipClient.prototype._request = function (opts, cb) {
+  assert.ok(opts.server, 'Server required to send a request')
   var self = this
   var login = self.getLogin(opts.server)
   if (opts.token || login.token) opts.token = opts.token || login.token
