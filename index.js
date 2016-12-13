@@ -43,12 +43,12 @@ TownshipClient.prototype.register = function (opts, cb) {
       password: opts.password
     }
   }, function (err, res, body) {
-    if (err) return cb(err.message)
+    if (err) return cb(err)
     body.server = server
     body.email = opts.email
     self.config.setLogin(body)
     self.server = server
-    cb()
+    cb(err, res, body)
   })
 }
 
@@ -69,12 +69,12 @@ TownshipClient.prototype.login = function (opts, cb) {
       password: opts.password
     }
   }, function (err, res, body) {
-    if (err) return cb(err.message)
+    if (err) return cb(err)
     body.server = server
     body.email = opts.email
     self.config.setLogin(body)
     self.server = server
-    cb()
+    cb(err, res, body)
   })
 }
 
@@ -110,12 +110,12 @@ TownshipClient.prototype.updatePassword = function (opts, cb) {
       newPassword: opts.newPassword
     }
   }, function (err, res, body) {
-    if (err) return cb(err.message)
+    if (err) return cb(err)
     body.server = server
     body.email = opts.email
     self.config.setLogin(body)
     self.server = server
-    cb()
+    cb(err, res, body)
   })
 }
 

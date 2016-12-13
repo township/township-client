@@ -24,15 +24,15 @@ var client = TownshipClient({
 client.register({
   email: 'joe@hand.email',
   password: 'Iheartcoffee'
-}, function (err) {
+}, function (err, res, body) {
   if (err) return console.error('Register error', err)
-  console.log('Registered successfully!')
+  console.log('Registered successfully with ', body.key, body.token)
 })
 
 client.login({
   email: 'joe@hand.email',
   password: 'Iheartcoffee'
-}, function (err) {
+}, function (err, res, body) {
   if (err) return console.error('Login error', err)
   console.log('Logged in successfully!')
 })

@@ -136,9 +136,13 @@ test('secure request with new info', function (t) {
 })
 
 test('register another user', function (t) {
-  client.register({email: 'joe@hand.email', password: 'verysecret'}, function (err) {
+  client.register({email: 'joe@hand.email', password: 'verysecret'}, function (err, res, body) {
     t.error(err, 'no error')
     t.pass('registers')
+    t.same(body.email, 'joe@hand.email', 'returns email back with request')
+    t.same(body.server, address, 'returns server back with request')
+    t.ok(body.token, 'returns token back with request')
+    t.ok(body.key, 'returns key back with request')
     t.end()
   })
 })
