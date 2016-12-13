@@ -1,4 +1,3 @@
-var assert = require('assert')
 var request = require('nets')
 var Config = require('./lib/config')
 
