@@ -26,7 +26,7 @@ client.register({
   password: 'Iheartcoffee'
 }, function (err, res, body) {
   if (err) return console.error('Register error', err)
-  console.log('Registered successfully with ', key, token)
+  console.log('Registered successfully with ', body.key, body.token)
 })
 
 client.login({
