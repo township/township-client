@@ -148,7 +148,7 @@ TownshipClient.prototype.secureRequest = function (opts, cb) {
 }
 
 TownshipClient.prototype._request = function (opts, cb) {
-  assert.ok(opts.server, 'Server required to send a request')
+  if (!opts.server) return new Error('Server required to send a request')
   var self = this
   var login = self.getLogin(opts.server)
   if (opts.token || login.token) opts.token = opts.token || login.token
