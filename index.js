@@ -43,6 +43,7 @@ TownshipClient.prototype.register = function (opts, cb) {
     }
   }, function (err, res, body) {
     if (err) return cb(err)
+    if (!body.token) return cb(new Error('No token received. Check server url.'))
     body.server = server
     body.email = opts.email
     self.config.setLogin(body)
@@ -69,6 +70,7 @@ TownshipClient.prototype.login = function (opts, cb) {
     }
   }, function (err, res, body) {
     if (err) return cb(err)
+    if (!body.token) return cb('No token received. Check server url.')
     body.server = server
     body.email = opts.email
     self.config.setLogin(body)
@@ -110,6 +112,7 @@ TownshipClient.prototype.updatePassword = function (opts, cb) {
     }
   }, function (err, res, body) {
     if (err) return cb(err)
+    if (!body.token) return cb(new Error('No token received. Check server url.'))
     body.server = server
     body.email = opts.email
     self.config.setLogin(body)
