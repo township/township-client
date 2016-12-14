@@ -80,6 +80,10 @@ function createApp (config) {
     })
   })
 
+  app.on('/fakeRegister', function (req, res, ctx) {
+    app.send(res, 200, {okay: 'body', no: 'token'})
+  })
+
   app.ship = ship
 
   return app

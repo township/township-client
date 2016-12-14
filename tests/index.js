@@ -147,6 +147,19 @@ test('register another user', function (t) {
   })
 })
 
+test('secure request with new info', function (t) {
+  var clientToo = TownshipClient({
+    server: address,
+    routes: {
+      register: '/fakeRegister'
+    }
+  })
+  clientToo.register({email: 'joe@hand.email', password: 'verysecret'}, function (err, res, body) {
+    t.ok(err, 'gets error')
+    t.end()
+  })
+})
+
 test.onFinish(function () {
   server.close(function () {
     fs.unlink(testConfig, function () {
