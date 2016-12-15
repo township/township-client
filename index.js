@@ -1,5 +1,5 @@
 var request = require('nets')
-var Config = require('./lib/config')
+var Config = process.browser ? require('./lib/browser-config') : require('./lib/config')
 
 module.exports = TownshipClient
 
