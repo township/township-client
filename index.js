@@ -37,10 +37,7 @@ TownshipClient.prototype.register = function (opts, cb) {
     method: 'POST',
     server: server,
     url: server + self.routes.register,
-    json: {
-      email: opts.email,
-      password: opts.password
-    }
+    json: opts
   }, function (err, res, body) {
     if (err) return cb(err)
     body.server = server
