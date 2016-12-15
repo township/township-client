@@ -17,7 +17,9 @@ var TownshipClient = require('township-client')
 var client = TownshipClient({
   server: 'https://api.township.site' // Set default server on init
   config: {
-    filename: '.townshiprc' // config file stored in user homedir
+    filename: '.townshiprc' 
+    // config file stored in user homedir. 
+    // uses localstorage if in browser
   }
 })
 
