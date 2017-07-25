@@ -21,5 +21,18 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3",
     "township": "^1.1.0"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/township/township-client.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/township/township-client/issues"
+  },
+  "homepage": "https://github.com/township/township-client#readme"
 }
