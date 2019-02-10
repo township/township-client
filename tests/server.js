@@ -42,10 +42,10 @@ module.exports = function (cb) {
 }
 
 function createApp (config) {
-  var app = appa({log: {level: 'silent'}})
+  var app = appa({ log: { level: 'silent' } })
   var db = memdb()
   app.db = db
-  var ship = township(config, db)
+  var ship = township(db, config)
 
   app.on('/register', function (req, res, ctx) {
     ship.register(req, res, ctx, function (err, code, data) {
@@ -69,7 +69,7 @@ function createApp (config) {
   })
 
   app.on('/verifytoken', function (req, res, ctx) {
-    ship.verify(req, res, function (err, token, rawToken) {
+    ship.verify(req, function (err, token, rawToken) {
       if (err) return app.error(res, 400, err.message)
       var body = {
         token: token,
@@ -81,7 +81,7 @@ function createApp (config) {
   })
 
   app.on('/fakeRegister', function (req, res, ctx) {
-    app.send(res, 200, {okay: 'body', no: 'token'})
+    app.send(res, 200, { okay: 'body', no: 'token' })
   })
 
   app.ship = ship

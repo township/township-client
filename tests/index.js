@@ -29,14 +29,14 @@ test('start test server', function (t) {
 })
 
 test('secure request before register', function (t) {
-  client.secureRequest({url: '/verifytoken'}, function (err) {
+  client.secureRequest({ url: '/verifytoken' }, function (err) {
     t.ok(err, 'errors')
     t.end()
   })
 })
 
 test('register', function (t) {
-  client.register({email: 'joe', password: 'verysecret'}, function (err) {
+  client.register({ email: 'joe', password: 'verysecret' }, function (err) {
     t.error(err, 'no error')
     t.pass('registers')
     t.end()
@@ -44,7 +44,7 @@ test('register', function (t) {
 })
 
 test('login okay', function (t) {
-  client.login({email: 'joe', password: 'verysecret'}, function (err) {
+  client.login({ email: 'joe', password: 'verysecret' }, function (err) {
     t.error(err, 'no error')
     t.pass('login okay')
     t.end()
@@ -52,7 +52,7 @@ test('login okay', function (t) {
 })
 
 test('secure request', function (t) {
-  client.secureRequest({url: '/verifytoken'}, function (err) {
+  client.secureRequest({ url: '/verifytoken' }, function (err) {
     t.error(err, 'no error')
     t.pass('secure request works')
     t.end()
@@ -76,28 +76,28 @@ test('logout twice okay', function (t) {
 })
 
 test('secure request after logout', function (t) {
-  client.secureRequest({url: '/verifytoken'}, function (err) {
+  client.secureRequest({ url: '/verifytoken' }, function (err) {
     t.ok(err, 'cannot do secure request after logout')
     t.end()
   })
 })
 
 test('login wrong pw', function (t) {
-  client.login({email: 'joe', password: 'notsecret'}, function (err) {
+  client.login({ email: 'joe', password: 'notsecret' }, function (err) {
     t.ok(err, 'errors')
     t.end()
   })
 })
 
 test('login wrong email', function (t) {
-  client.login({email: 'notjoe', password: 'verysecret'}, function (err) {
+  client.login({ email: 'notjoe', password: 'verysecret' }, function (err) {
     t.ok(err, 'errors')
     t.end()
   })
 })
 
 test('login to get token again', function (t) {
-  client.login({email: 'joe', password: 'verysecret'}, function (err) {
+  client.login({ email: 'joe', password: 'verysecret' }, function (err) {
     t.error(err, 'no error')
     t.pass('ok login after logout')
     t.end()
@@ -128,7 +128,7 @@ test('login with new password', function (t) {
 })
 
 test('secure request with new info', function (t) {
-  client.secureRequest({url: '/verifytoken'}, function (err) {
+  client.secureRequest({ url: '/verifytoken' }, function (err) {
     t.error(err, 'no error')
     t.pass('secure request works')
     t.end()
@@ -136,7 +136,7 @@ test('secure request with new info', function (t) {
 })
 
 test('register another user', function (t) {
-  client.register({email: 'joe@hand.email', password: 'verysecret'}, function (err, res, body) {
+  client.register({ email: 'joe@hand.email', password: 'verysecret' }, function (err, res, body) {
     t.error(err, 'no error')
     t.pass('registers')
     t.same(body.email, 'joe@hand.email', 'returns email back with request')
@@ -154,7 +154,7 @@ test('secure request with new info', function (t) {
       register: '/fakeRegister'
     }
   })
-  clientToo.register({email: 'joe@hand.email', password: 'verysecret'}, function (err, res, body) {
+  clientToo.register({ email: 'joe@hand.email', password: 'verysecret' }, function (err, res, body) {
     t.ok(err, 'gets error')
     t.end()
   })

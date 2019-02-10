@@ -1,4 +1,4 @@
-var request = require('nets')
+var request = require('request')
 var Config = process.browser ? require('./lib/browser-config') : require('./lib/config')
 
 module.exports = TownshipClient
@@ -67,7 +67,7 @@ TownshipClient.prototype.login = function (opts, cb) {
     }
   }, function (err, res, body) {
     if (err) return cb(err)
-    if (!body.token) return cb('No token received. Check server url.')
+    if (!body.token) return cb(new Error('No token received. Check server url.'))
     body.server = server
     body.email = opts.email
     self.config.setLogin(body)
@@ -84,7 +84,7 @@ TownshipClient.prototype.logout = function (opts, cb) {
   var server = self._getServer(opts)
   if (!server || !self.getLogin(server)) return cb(new Error('Not logged in.'))
 
-  self.config.setLogin({server: server})
+  self.config.setLogin({ server: server })
   self.config.set('currentLogin', null)
   cb(null)
 }
@@ -120,7 +120,7 @@ TownshipClient.prototype.updatePassword = function (opts, cb) {
 
 TownshipClient.prototype.getLogin = function (server) {
   var self = this
-  server = self._getServer({server: server})
+  server = self._getServer({ server: server })
   if (!server) return null
   return self.config.getLogin(server)
 }
